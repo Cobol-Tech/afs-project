@@ -1,0 +1,13 @@
+{
+  "name": "afs-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd ./hive-project && bun run dev",
+    "server": "cd ./hive-server && bun run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

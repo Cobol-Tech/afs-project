@@ -34,32 +34,29 @@ const features: FeatureProps[] = [
   },
 ];
 
-
 const Features = () => {
   return (
-    <section
-      id="features"
-      className="container py-24 sm:py-32 space-y-8"
-    >
-      <h2 className="scroll-m-20 border-b pb-4 text-3xl text-center font-semibold tracking-tight first:mt-0">Features</h2>
+    <section id="features" className="container py-24 sm:py-32 space-y-8">
+      <h2 className="scroll-m-20 border-b pb-4 text-3xl text-center font-semibold tracking-tight first:mt-0">
+        Features
+      </h2>
 
       <div className="grid md:grid-cols-2  gap-8">
         {features.map(({ title, description }: FeatureProps) => (
-          <Card key={title} className="hover:shadow-lg dark:hover:shadow-2xl dark:hover:shadow-neutral-900 duration-500">
+          <Card
+            key={title}
+            className="hover:shadow-lg dark:hover:shadow-lg dark:hover:shadow-neutral-400/10 duration-500">
             <CardHeader className="gap-6">
               <div className="size-16 ring ring-border  rounded-full"></div>
               <CardTitle>{title}</CardTitle>
             </CardHeader>
 
             <CardContent>{description}</CardContent>
-
-
-
           </Card>
         ))}
       </div>
     </section>
-  )
+  );
 };
 
 export default Features;

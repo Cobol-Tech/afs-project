@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
+import { Layout } from "./components/Layout";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -24,7 +25,14 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {token ? (
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Layout>
+                <Dashboard />
+              </Layout>
+            }
+          />
         ) : (
           <Route path="*" element={<Login />} />
         )}

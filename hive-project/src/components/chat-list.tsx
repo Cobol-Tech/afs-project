@@ -1,9 +1,10 @@
 import { Message, UserData } from "@/data";
-import React, { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import ChatBottombar from "./chat-bottombar";
 import { AnimatePresence, motion } from "framer-motion";
-import { ScrollArea } from "./ui/scroll-area";
+// import { ScrollArea } from "./ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 interface ChatListProps {
   messages?: Message[];
@@ -20,7 +21,7 @@ export function ChatList({
 }: ChatListProps) {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop =
         messagesContainerRef.current.scrollHeight;
@@ -29,7 +30,7 @@ export function ChatList({
 
   return (
     <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
-      <ScrollArea
+      <div
         ref={messagesContainerRef}
         className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
         <AnimatePresence>
@@ -52,14 +53,12 @@ export function ChatList({
                 originX: 0.5,
                 originY: 0.5,
               }}
-              className={`
-                "flex flex-col gap-2 p-4 whitespace-pre-wrap" ${
-                  message.name !== selectedUser.name
-                    ? "items-end"
-                    : "items-start"
-                }`}>
+              className={cn(
+                "flex flex-col gap-2 p-4 whitespace-pre-wrap",
+                message.name !== selectedUser.name ? "items-end" : "items-start"
+              )}>
               <div className="flex gap-3 items-center">
-                {message.name === selectedUser.name && (
+                {message.name === selectedUser.name ? (
                   <Avatar className="flex justify-center items-center">
                     <AvatarImage
                       src={message.avatar}
@@ -68,7 +67,7 @@ export function ChatList({
                       height={6}
                     />
                   </Avatar>
-                )}
+                ) : null}
                 <span className=" bg-accent p-3 rounded-md max-w-xs">
                   {message.message}
                 </span>
@@ -86,7 +85,7 @@ export function ChatList({
             </motion.div>
           ))}
         </AnimatePresence>
-      </ScrollArea>
+      </div>
       <ChatBottombar sendMessage={sendMessage} isMobile={isMobile} />
     </div>
   );

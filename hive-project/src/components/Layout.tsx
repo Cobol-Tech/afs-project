@@ -193,7 +193,7 @@ export function Layout({ children }: LayoutProps) {
           </DropdownMenu>
         </header>
         {/* <main className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3"> */}
-        <main className=" flex-1 overflow-auto p-4 ">{children}</main>
+        <main className=" flex-1 overflow-auto sm:p-4 ">{children}</main>
       </div>
     </div>
   );

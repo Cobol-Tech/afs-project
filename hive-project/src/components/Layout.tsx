@@ -4,17 +4,19 @@ import {
   Bot,
   CircleUser,
   Code2,
+  Diameter,
   // CornerDownLeft,
   LifeBuoy,
+  MailIcon,
   // Mic,
   // Paperclip,
   // Rabbit,
   // Settings,
-  Settings2,
+  // Settings2,
   // Share,
   SquareTerminal,
   // SquareUser,
-  Triangle,
+  // Triangle,
   // Turtle,
 } from "lucide-react";
 
@@ -67,7 +69,8 @@ export function Layout({ children }: LayoutProps) {
                 to="/"
                 className={buttonVariants({ variant: "outline", size: "icon" })}
                 aria-label="Home">
-                <Triangle className="size-5 fill-foreground" />
+                {/* <Triangle className="size-5 fill-foreground" /> */}
+                <Diameter className="size-5 " />
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
@@ -83,7 +86,7 @@ export function Layout({ children }: LayoutProps) {
                 size="icon"
                 className="rounded-lg bg-muted"
                 aria-label="Playground">
-                <SquareTerminal className="size-5" />
+                <MailIcon className="size-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
@@ -101,7 +104,7 @@ export function Layout({ children }: LayoutProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              Models
+              Robotics Group
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -115,7 +118,7 @@ export function Layout({ children }: LayoutProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              API
+              Coding Group 1
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -129,7 +132,7 @@ export function Layout({ children }: LayoutProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              Documentation
+              History Notes
             </TooltipContent>
           </Tooltip>
           <Tooltip>
@@ -139,11 +142,11 @@ export function Layout({ children }: LayoutProps) {
                 size="icon"
                 className="rounded-lg"
                 aria-label="Settings">
-                <Settings2 className="size-5" />
+                <SquareTerminal className="size-5" />
               </Button>
             </TooltipTrigger>
             <TooltipContent side="right" sideOffset={5}>
-              Settings
+              Coding Group 2
             </TooltipContent>
           </Tooltip>
         </nav>

@@ -1,12 +1,12 @@
-import { Route, Routes, useLocation } from "react-router-dom"
-import Landing from "./pages/Landing"
-import Login from "./pages/Login"
-import Signup from "./pages/Signup"
-import Dashboard from "./pages/Dashboard"
-import { useEffect } from "react"
+import { Route, Routes, useLocation } from "react-router-dom";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import { useEffect } from "react";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
-
   const token = localStorage.getItem("token");
 
   const { pathname } = useLocation();
@@ -17,6 +17,7 @@ function App() {
 
   return (
     <>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<Signup />} />
@@ -29,7 +30,7 @@ function App() {
         )}
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,134 +1,10 @@
-// import { Link, useNavigate } from "react-router-dom"
-
-// import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
-// import { useState } from "react";
-// import axios from "axios";
-
-// interface formData {
-//   username: string,
-//   password: string,
-// }
-
-// export function Login() {
-
-//   const [formData, setFormData] = useState<formData>({
-//     username: "",
-//     password: "",
-//   });
-
-//   const navigate = useNavigate();
-
-//   function handleChange(event) {
-//     const { name, value } = event.target;
-//     setFormData((prevState) => ({ ...prevState, [name]: value }));
-//   }
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const { username, password } = formData;
-//     try {
-//       const res = await axios.post("http://localhost:3000/signin", {
-//         username,
-//         password,
-//       });
-//       console.log(res);
-//       const { token } = res.data.token;
-//       console.log(res.data);
-//       localStorage.setItem("user", JSON.stringify(res.data.existingUser));
-//       console.log(JSON.stringify(res.data.existingUser));
-//       localStorage.setItem("token", token);
-//       localStorage.setItem("username", username);
-
-//       navigate("/"); // redirect to home page
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-
-//   return (
-//     <div className="w-full lg:grid lg:h-[100vh] lg:grid-cols-2 xl:min-h-full">
-
-//       <div className="hidden bg-muted lg:block">
-//         <img
-//           src="/pic-2.jpg"
-
-//           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-//         />
-//       </div>
-
-//       <div className="flex items-center justify-center py-12">
-//         <div className="mx-auto grid w-[350px] gap-6">
-//           <div className="grid gap-2 text-center">
-//             <h1 className="text-3xl font-bold">Login</h1>
-//             <p className="text-balance text-muted-foreground">
-//               Enter your email below to login to your account
-//             </p>
-//           </div>
-//           <div className="grid gap-4">
-//             <div className="grid gap-2">
-//               <Label htmlFor="username">Username</Label>
-//               <Input
-//                 id="username"
-//                 type="text"
-//                 name="username"
-//                 value={formData.username}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-//             <div className="grid gap-2">
-//               <div className="flex items-center">
-//                 <Label htmlFor="password">Password</Label>
-//                 <Link
-//                   to="/"
-//                   className="ml-auto inline-block text-sm underline"
-//                 >
-//                   Forgot your password?
-//                 </Link>
-//               </div>
-//               <Input
-//                 id="password"
-//                 type="password"
-//                 name="password"
-//                 value={formData.password}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-//             <Button
-//               type="submit"
-//               className="w-full"
-//               onClick={handleSubmit}
-//             >
-//               Login
-//             </Button>
-//             <Button variant="outline" className="w-full">
-//               Login with Google
-//             </Button>
-//           </div>
-//           <div className="mt-4 text-center text-sm">
-//             Don&apos;t have an account?{" "}
-//             <Link to="/signup" className="underline">
-//               Sign up
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Login;
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FormData {
   username: string;
@@ -143,12 +19,14 @@ interface ApiResponse {
     password: string;
     firstName: string;
     lastName: string;
-  },
-  message: string,
-  success: boolean
+  };
+  message: string;
+  success: boolean;
 }
 
 export function Login() {
+  const { toast } = useToast();
+
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
@@ -161,29 +39,41 @@ export function Login() {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     const { username, password } = formData;
     try {
-      const response = await axios.post<ApiResponse>("http://localhost:3000/signin", {
-        username,
-        password,
-      });
+      const response = await axios.post<ApiResponse>(
+        "http://localhost:3000/signin",
+        {
+          username,
+          password,
+        }
+      );
       console.log(response.data);
       const { token, existingUser } = response.data;
       localStorage.setItem("user", JSON.stringify(existingUser));
       localStorage.setItem("token", token);
       localStorage.setItem("username", username);
 
+      toast({
+        title: "Logged In Successfully",
+      });
+
       navigate("/dashboard");
     } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error Loggin In",
+      });
       console.error(err);
     }
   };
 
   return (
     <div className="w-full lg:grid lg:h-[100vh] lg:grid-cols-2 xl:min-h-full">
-
       {/* image */}
       <div className="hidden bg-muted lg:block">
         <img
@@ -218,7 +108,9 @@ export function Login() {
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link to="/" className="ml-auto inline-block text-sm underline">
+                  <Link
+                    to="/"
+                    className="ml-auto inline-block text-sm underline">
                     Forgot your password?
                   </Link>
                 </div>

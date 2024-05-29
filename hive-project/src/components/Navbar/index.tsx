@@ -38,8 +38,8 @@ const routeList: RouteProps[] = [
   },
 ];
 
-
 const Navbar = () => {
+  const token = localStorage.getItem("token");
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -48,10 +48,7 @@ const Navbar = () => {
       <NavigationMenu className="mx-auto">
         <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
           <NavigationMenuItem className="font-bold flex mr-auto">
-            <Link
-              to="/"
-              className="ml-2 font-bold text-xl flex"
-            >
+            <Link to="/" className="ml-2 font-bold text-xl flex">
               Hive
             </Link>
           </NavigationMenuItem>
@@ -60,24 +57,18 @@ const Navbar = () => {
           <span className="flex md:hidden">
             <ModeToggle />
 
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
                   className="flex md:hidden h-5 w-5"
-                  onClick={() => setIsOpen(true)}
-                >
+                  onClick={() => setIsOpen(true)}>
                   <span className="sr-only">Menu Icon</span>
                 </Menu>
               </SheetTrigger>
 
               <SheetContent side={"left"}>
                 <SheetHeader>
-                  <SheetTitle className="font-bold text-xl">
-                    Hive
-                  </SheetTitle>
+                  <SheetTitle className="font-bold text-xl">Hive</SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col justify-center items-center gap-2 mt-4">
                   {routeList.map(({ href, label }: RouteProps) => (
@@ -85,8 +76,7 @@ const Navbar = () => {
                       key={label}
                       href={href}
                       onClick={() => setIsOpen(false)}
-                      className={buttonVariants({ variant: "ghost" })}
-                    >
+                      className={buttonVariants({ variant: "ghost" })}>
                       {label}
                     </a>
                   ))}
@@ -95,18 +85,30 @@ const Navbar = () => {
                     target="_blank"
                     className={`w-[110px] border ${buttonVariants({
                       variant: "secondary",
-                    })}`}
-                  >
+                    })}`}>
                     <GitHubLogoIcon className="mr-2 w-5 h-5" />
                     Github
                   </a>
 
-                  <Link
-                    to="/signup"
-                    className={`border ${buttonVariants({ variant: "default" })}`}
-                  >
-                    Sign Up
-                  </Link>
+                  {!token ? (
+                    <Link
+                      to="/signup"
+                      className={`border ${buttonVariants({
+                        variant: "default",
+                      })}`}>
+                      Sign Up
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        className={`border ${buttonVariants({
+                          variant: "default",
+                        })}`}>
+                        Dashboard
+                      </Link>
+                    </>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
@@ -120,8 +122,7 @@ const Navbar = () => {
                 key={i}
                 className={`text-[17px] ${buttonVariants({
                   variant: "link",
-                })}`}
-              >
+                })}`}>
                 {route.label}
               </a>
             ))}
@@ -132,23 +133,34 @@ const Navbar = () => {
             <a
               href="https://github.com/Cobol-Tech/Main"
               target="_blank"
-              className={`border ${buttonVariants({ variant: "secondary" })}`}
-            >
+              className={`border ${buttonVariants({ variant: "secondary" })}`}>
               <GitHubLogoIcon className="mr-2 w-5 h-5" />
               Github
             </a>
-            <Link
-              to="/signup"
-              className={`border ${buttonVariants({ variant: "default" })}`}
-            >
-              Sign Up
-            </Link>
-
+            {!token ? (
+              <Link
+                to="/signup"
+                className={`border ${buttonVariants({
+                  variant: "default",
+                })}`}>
+                Sign Up
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/dashboard"
+                  className={`border ${buttonVariants({
+                    variant: "default",
+                  })}`}>
+                  Dashboard
+                </Link>
+              </>
+            )}
           </div>
         </NavigationMenuList>
       </NavigationMenu>
     </header>
-  )
+  );
 };
 
 export default Navbar;

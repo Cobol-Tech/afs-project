@@ -1,150 +1,10 @@
-// import { Link, useNavigate } from "react-router-dom"
-// import { Button, buttonVariants } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
-
-// import { useState } from "react";
-// import axios from "axios";
-
-// export function Signup() {
-
-//   const [formData, setFormData] = useState({
-//     email: "",
-//     username: "",
-//     password: "",
-//     firstName: "",
-//     lastName: "",
-//   });
-
-//   const navigate = useNavigate();
-
-//   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = event.target as HTMLInputElement;
-//     setFormData((prevState) => ({ ...prevState, [name]: value }));
-//   };
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
-//     const data = {
-//       email: formData.email,
-//       username: formData.username,
-//       password: formData.password,
-//       firstName: formData.firstName,
-//       lastName: formData.lastName,
-//     };
-//     try {
-//       axios.post("http://localhost:3000/signup", data).then((response) => {
-//         console.log(response);
-//       });
-
-//       navigate("/"); // redirect to home page
-//     } catch (err) {
-//       console.error(err);
-//     }
-//   };
-
-
-
-//   return (
-//     <div className="w-full lg:grid lg:h-[100vh] lg:grid-cols-2 xl:min-h-full">
-//       <div className="flex items-center justify-center py-12">
-//         <div className="mx-auto grid w-[350px] gap-6">
-//           <div className="grid gap-2 text-center">
-//             <h1 className="text-3xl font-bold">Signup</h1>
-//             <p className="text-balance text-muted-foreground">
-//               Enter your email below to login to your account
-//             </p>
-//           </div>
-//           <div className="grid gap-4">
-//             <div className="grid grid-cols-2 gap-4">
-//               <div className="grid gap-2">
-//                 <Label htmlFor="first-name">First name</Label>
-//                 <Input
-//                   id="first-name"
-//                   placeholder="Max"
-//                   value={formData.firstName}
-//                   onChange={handleChange}
-//                   required
-//                 />
-//               </div>
-//               <div className="grid gap-2">
-//                 <Label htmlFor="last-name">Last name</Label>
-//                 <Input
-//                   id="last-name"
-//                   placeholder="Robinson"
-//                   value={formData.lastName}
-//                   onChange={handleChange}
-//                   required
-//                 />
-//               </div>
-//             </div>
-//             <div className="grid gap-2">
-//               <Label htmlFor="email">Email</Label>
-//               <Input
-//                 id="email"
-//                 type="email"
-//                 placeholder="m@example.com"
-//                 value={formData.email}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </div>
-//             <div className="grid gap-2">
-//               <Label htmlFor="username">Username</Label>
-//               <Input
-//                 id="username"
-//                 type="text"
-//                 value={formData.username}
-//                 onChange={handleChange}
-//               />
-//             </div>
-//             <div className="grid gap-2">
-//               <Label htmlFor="password">Password</Label>
-//               <Input
-//                 id="password"
-//                 type="password"
-//                 value={formData.password}
-//                 onChange={handleChange}
-//               />
-//             </div>
-//             <button
-//               type="submit"
-//               className={`w-full ${buttonVariants({ variant: "default" })}`}
-//               onClick={handleSubmit}
-//             >
-//               Create an account
-//             </button>
-//             <Button variant="outline" className="w-full">
-//               Sign up with GitHub
-//             </Button>
-//           </div>
-//           <div className="mt-4 text-center text-sm">
-//             Already have an account{" "}
-//             <Link to="/login" className="underline">
-//               Sign in
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//       <div className="hidden bg-muted lg:block">
-//         <img
-//           src="/pic-1.jpg"
-
-//           className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-//         />
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Signup;
-
 import { Link, useNavigate } from "react-router-dom";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
+import { useToast } from "@/components/ui/use-toast";
 
 interface FormData {
   email: string;
@@ -155,6 +15,8 @@ interface FormData {
 }
 
 export function Signup(): JSX.Element {
+  const { toast } = useToast();
+
   const [formData, setFormData] = useState<FormData>({
     email: "",
     username: "",
@@ -170,7 +32,9 @@ export function Signup(): JSX.Element {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     const data = {
       email: formData.email,
@@ -182,15 +46,23 @@ export function Signup(): JSX.Element {
     try {
       const response = await axios.post("http://localhost:3000/signup", data);
       console.log(response.data);
+
+      toast({
+        title: "Account Created Successfully",
+      });
+
       navigate("/login");
     } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Error Creating Account",
+      });
       console.error(err);
     }
   };
 
   return (
     <div className="w-full lg:grid lg:h-[100vh] lg:grid-cols-2 xl:min-h-full">
-
       {/* form */}
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
@@ -260,8 +132,7 @@ export function Signup(): JSX.Element {
               </div>
               <button
                 type="submit"
-                className={`w-full ${buttonVariants({ variant: "default" })}`}
-              >
+                className={`w-full ${buttonVariants({ variant: "default" })}`}>
                 Create an account
               </button>
               <Button variant="outline" className="w-full">
@@ -277,7 +148,6 @@ export function Signup(): JSX.Element {
           </div>
         </div>
       </div>
-
 
       {/* image */}
       <div className="hidden bg-muted lg:block">

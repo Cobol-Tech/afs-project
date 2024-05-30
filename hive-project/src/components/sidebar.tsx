@@ -32,7 +32,7 @@ export function Sidebar({ links, isCollapsed }: SidebarProps) {
       {!isCollapsed && (
         <div className="flex justify-between p-2 items-center">
           <div className="flex gap-2 items-center text-2xl">
-            <p className="font-medium">Chats</p>
+            <p className="font-medium">DMs</p>
             <span className="text-zinc-300">
               {"("}
               {links.length}

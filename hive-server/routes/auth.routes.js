@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { signUp, signIn } from "../controllers/auth.js";
+import { signUp, signIn, allUsers } from "../controllers/auth.js";
 import Message from "../models/message.js";
 
 const router = Router();
 
 router.post("/signup", signUp);
 router.post("/signin", signIn);
+
+router.get("/allUsers", allUsers);
 
 // Message
 router.post("/msg", async (req, res) => {

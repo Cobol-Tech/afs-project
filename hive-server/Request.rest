@@ -33,3 +33,7 @@ Content-Type: application/json
   "from": "66137d80cac5b7acb51bc4b1",
   "to": "66137f0bf1b621dc11333c16"
 }
+
+###
+
+GET http://localhost:3000/get/chat/msg/66137d80cac5b7acb51bc4b1/66137f0bf1b621dc11333c16 HTTP/1.1
